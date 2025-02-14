@@ -3,7 +3,7 @@ import requests
 import json
 
 # PON TU API KEY ENTRE COMILLAS
-API_KEY = "AIzaSyDkvMT-2Tj12K6KAoL7clfVxFVQbAyv79w"  # Reemplaza con tu clave real
+API_KEY = "AIzaSyDnQOVbYE2zIs70QX9oK265XkKZhw1WmKc"  # Reemplaza con tu clave real
 
 # URL con la API Key incluida
 URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
