@@ -1,54 +1,78 @@
+#!/usr/bin/env python
 import streamlit as st
+import random
 import requests
-import json
 
-# PON TU API KEY ENTRE COMILLAS
-API_KEY = "AIzaSyDnQOVbYE2zIs70QX9oK265XkKZhw1WmKc"  # Reemplaza con tu clave real
 
-# URL con la API Key incluida
-URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
+def pregunta_aleatoria_placeholder():
+	preguntas = [
+		"¿Cómo hacer arroz con pollo?",
+		"¿Cómo hacer arroz con leche?",
+		"¿Qué receta me recomiendas para un lunes?",
+		"¿Qué necesito para un manjar blanco?"
+	]
+	index_random = random.randint(0, len(preguntas) - 1)  # Evitar índice fuera de rango
+	return preguntas[index_random]
 
-# Función para obtener la respuesta de Gemini
-def responder_pregunta(pregunta):
-    headers = {"Content-Type": "application/json"}
-    data = {"contents": [{"parts": [{"text": pregunta}]}]}
-    
-    response = requests.post(URL, headers=headers, data=json.dumps(data))
-    
-    if response.status_code == 200:
-        respuesta_json = response.json()
-        try:
-            return respuesta_json["candidates"][0]["content"]["parts"][0]["text"]
-        except (KeyError, IndexError):
-            return "Error al procesar la respuesta de la API."
-    else:
-        return f"Error {response.status_code}: {response.text}"
+def main():
 
-# Función para obtener una imagen relacionada usando una API de imágenes
-def obtener_imagen(query):
-    imagen_url = f"https://source.unsplash.com/600x400/?{query}"  # Usa imágenes aleatorias de Unsplash
-    return imagen_url
 
-# Interfaz con Streamlit
-st.set_page_config(page_title="Chatbot con IA", layout="centered")
-st.title("🤖 Chatbot con Gemini + Imágenes")
-st.write("Haz una pregunta y obtén respuestas generadas por la IA, junto con una imagen relacionada.")
+	st.set_page_config(page_title="Chatbot de Recetas", page_icon="🍳", layout="centered")
+	# Estilo para el título
+	st.markdown("<h1 style='text-align: center; color: #FF5733;'>🍳 Chatbot de Recetas</h1>", unsafe_allow_html=True)
+	# Estilo para el header
+	st.markdown("<h2 style='text-align: center; color: #4CAF50;'>Tu asistente culinario inteligente</h2>", unsafe_allow_html=True)
+	# Estilo para la descripción
+	st.markdown("<p style='text-align: center; font-size: 18px; color: #555;'>Bienvenido al chatbot de recetas. Pregunta sobre ingredientes, tiempos de cocción y más.</p>", unsafe_allow_html=True)
+	# Sección de entrada del usuario con estilo mejorado
+	st.markdown("<h3 style='color: #FF5733; font-size: 22px;'>📩 Escribe tu pregunta sobre recetas:</h3>", unsafe_allow_html=True)
 
-# Entrada del usuario
-pregunta = st.text_input("✍️ Escribe tu pregunta:")
+	def get_response(user_input):
 
-# Botón para obtener respuesta
-if st.button("🔍 Obtener respuesta"):
-    if pregunta:
-        with st.spinner("Pensando..."):
-            respuesta = responder_pregunta(pregunta)
-            imagen_url = obtener_imagen(pregunta)
-        
-        # Mostrar la respuesta
-        st.subheader("💬 Respuesta de Gemini:")
-        st.write(respuesta)
-        
-        # Mostrar la imagen relacionada
-        st.image(imagen_url, caption="Imagen relacionada", use_container_width=True)
-    else:
-        st.warning("Por favor, ingresa una pregunta.")
+		# Configuración
+		API_KEY = "AIzaSyBGdqGYzr40xTMbUS3wfdQuwHU4Bf-AMyg"
+		API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
+
+		# Función para hacer la solicitud
+		def get_gemini_response(prompt):
+			headers = {"Content-Type": "application/json"}
+			data = {
+				"contents": [{
+					"parts": [{"text": prompt}]
+				}]
+			}
+
+			response = requests.post(API_URL, headers=headers, json=data)
+			
+			if response.status_code == 200:
+				return response.json()
+			else:
+				return {"error": response.text}
+
+		# Ejemplo de uso
+		prompt = user_input
+		response = get_gemini_response(prompt)
+
+		# print(response["candidates"][0]["content"]["parts"][0]["text"])
+
+		return response["candidates"][0]["content"]["parts"][0]["text"]
+
+
+	user_input = st.text_input("", pregunta_aleatoria_placeholder())
+
+	col1, col2 = st.columns([2, 1])
+
+	with col1:
+		st.markdown("<h3 style='color: #FF5733;'>🍳 Clickea abajo para obtener una respuesta:</h3>", unsafe_allow_html=True)
+		
+		if st.button("🔍 Preguntar", help="Haz clic para obtener una receta"):
+			response = get_response(user_input)
+			st.markdown("<h3 style='color: #4CAF50;'>🤖 Respuesta del Chatbot:</h3>", unsafe_allow_html=True)
+			st.success(response)
+
+	with col2:
+		st.image("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWIq2c1yUZB6A3SX-FujJCBfA9pxhTViZQ7A&s", caption="Recetas deliciosas", use_column_width=True)
+
+
+if __name__ == "__main__":
+	main()
