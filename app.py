@@ -1,6 +1,4 @@
 import streamlit as st
-import google.generativeai as genai
-import os
 
 # Configurar la clave de API de Gemini
 API_KEY = "AIzaSyDnQOVbYE2zIs70QX9oK265XkKZhw1WmKc"  # Reemplaza con tu clave real
