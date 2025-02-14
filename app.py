@@ -49,6 +49,6 @@ if st.button("🔍 Obtener respuesta"):
         st.write(respuesta)
         
         # Mostrar la imagen relacionada
-        st.image(imagen_url, caption="Imagen relacionada", use_column_width=True)
+        st.image(imagen_url, caption="Imagen relacionada", use_container_width=True)
     else:
         st.warning("Por favor, ingresa una pregunta.")
