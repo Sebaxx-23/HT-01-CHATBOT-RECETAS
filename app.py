@@ -40,7 +40,7 @@ st.markdown("""
 
 # Título y descripción
 st.markdown("<div class='title'>🍽️ ChefBot - Tu Asistente de Cocina 🍽️</div>", unsafe_allow_html=True)
-st.image("https://source.unsplash.com/featured/?food,cooking", use_column_width=True)
+st.image("https://media.istockphoto.com/id/1791025589/es/vector/personaje-de-mascota-de-panadero-de-dibujos-animados-retro-vintage.jpg?s=612x612&w=0&k=20&c=_6gXChmiba7gWvhaXsJ8Nro-VpAsUnxV9ddUUmcHXeM=", use_container_width=True)
 st.markdown("<div class='subtext'>Pregunta sobre recetas, ingredientes y consejos de cocina.</div>", unsafe_allow_html=True)
 
 # Entrada del usuario
