@@ -27,6 +27,7 @@ def responder_pregunta(pregunta):
 
 # Personalización del diseño
 st.set_page_config(page_title="ChefBot - Recetas Inteligentes", page_icon="🍽️", layout="centered")
+
 st.markdown("""
     <style>
         .stApp {background-color: #f9f5f0;}
@@ -39,6 +40,7 @@ st.markdown("""
 
 # Título y descripción
 st.markdown("<div class='title'>🍽️ ChefBot - Tu Asistente de Cocina 🍽️</div>", unsafe_allow_html=True)
+st.image("https://source.unsplash.com/featured/?food,cooking", use_column_width=True)
 st.markdown("<div class='subtext'>Pregunta sobre recetas, ingredientes y consejos de cocina.</div>", unsafe_allow_html=True)
 
 # Entrada del usuario
